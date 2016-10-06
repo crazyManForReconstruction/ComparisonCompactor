@@ -19,11 +19,17 @@ public class JUnitTestComparisonCompactor {
 	@Test
 	public void testStartSame(){
 		String failure = new ComparisonCompactor(1, "ba", "bc").compact(null);
-		assertEquals("expected:<b[a]> but was:b[c]", failure);
+		assertEquals("expected:<b[a]> but was:<b[c]>", failure);
 	}
 	
 	@Test
 	public void testEndSame(){
+		String failure = new ComparisonCompactor(1, "ab", "cb").compact(null);
+		assertEquals("expected:<[a]b> but was:<[c]b>", failure);
+	}
+	
+	@Test
+	public void testSame(){
 		String failure = new ComparisonCompactor(1, "ab", "ab").compact(null);
 		assertEquals("expected:<ab> but was:<ab>", failure);
 	}
@@ -37,7 +43,7 @@ public class JUnitTestComparisonCompactor {
 	@Test
 	public void testStartAndEndContext(){
 		String failure = new ComparisonCompactor(1, "abc", "adc").compact(null);
-		assertEquals("expected:<a[b]c> but was:a[d]c", failure);
+		assertEquals("expected:<a[b]c> but was:<a[d]c>", failure);
 	}
 	
 	@Test
@@ -49,7 +55,7 @@ public class JUnitTestComparisonCompactor {
 	@Test
 	public void testComparisonErrorStartSameComplete(){
 		String failure = new ComparisonCompactor(2, "ab", "abc").compact(null);
-		assertEquals("expected:<ab>[] but was:<ab[c]>", failure);
+		assertEquals("expected:<ab[]> but was:<ab[c]>", failure);
 	}
 	
 	@Test
@@ -61,7 +67,7 @@ public class JUnitTestComparisonCompactor {
 	@Test
 	public void testComparisonErrorEndSameCompleteContext(){
 		String failure = new ComparisonCompactor(2, "bc", "abc").compact(null);
-		assertEquals("expected:<[]...> but was:<ab[c]>", failure);
+		assertEquals("expected:<[]bc> but was:<[a]bc>", failure);
 	}
 	
 	@Test
